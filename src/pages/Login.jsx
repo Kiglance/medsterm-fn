@@ -28,11 +28,18 @@ const Login = () => {
   const navigate = useNavigate();
 
   const step = useSelector((state) => state.step.login_step);
+
   const nav = useNavigate();
   const [loading, setLoading] = React.useState(false);
+  const [loginForm, setLoginForm] = React.useState({
+    email: step === 1 ? 'admin_1@ms.com' : '',
+    password: step === 1 ? 'Admin1@ms' : ''
+  });
   const {
     handleSubmit,
     control,
+    setValue,
+    getValues,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema)
@@ -45,6 +52,11 @@ const Login = () => {
   if (userData?.token) {
     return <Navigate to="/dashboard" />;
   }
+
+  React.useEffect(() => {
+    setValue('email', 'admin_1@ms.com');
+    setValue('password', 'Admin1@ms');
+  }, [step]);
 
   const handleBack = () => {
     nav('/');
@@ -126,6 +138,9 @@ const Login = () => {
                   } cursor-pointer text-center w-1/2 font-semibold text-[#6A6F75]`}
                   onClick={() => {
                     dispatch(toPatientLogin());
+                    setLoginForm(() => {
+                      return { email: '', password: '' };
+                    });
                   }}
                 >
                   Patient
@@ -136,6 +151,9 @@ const Login = () => {
                   } cursor-pointer text-center w-1/2 font-semibold text-[#6A6F75]`}
                   onClick={() => {
                     dispatch(toAdminLogin());
+                    setLoginForm(() => {
+                      return { email: 'admin_1@ms.com', password: 'Admin1@ms' };
+                    });
                   }}
                 >
                   Admin
@@ -150,7 +168,7 @@ const Login = () => {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue=""
+                  defaultValue={''}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -162,6 +180,13 @@ const Login = () => {
                       label="Email"
                       name="email"
                       autoComplete="email"
+                      value={loginForm.email}
+                      onChange={(e) => {
+                        setLoginForm((value) => {
+                          return { ...value, email: e.target.value };
+                        });
+                        setValue('email', e.target.value);
+                      }}
                       autoFocus
                       error={!!errors.email}
                       helperText={errors.email?.message}
@@ -171,7 +196,7 @@ const Login = () => {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
+                  defaultValue={''}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -184,6 +209,13 @@ const Login = () => {
                       type="password"
                       id="password"
                       autoComplete="password"
+                      value={loginForm.password}
+                      onChange={(e) => {
+                        setLoginForm((value) => {
+                          return { ...value, password: e.target.value };
+                        });
+                        setValue('password', e.target.value);
+                      }}
                       error={!!errors.password}
                       helperText={errors.password?.message}
                     />

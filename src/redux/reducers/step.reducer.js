@@ -4,7 +4,7 @@ const initialState = {
   profile_step: 0,
   admin_patient_step: 0,
   appointment_step: 0,
-  login_step: 0
+  login_step: 1
 };
 
 const stepSlice = createSlice({
