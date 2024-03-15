@@ -8,7 +8,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 
 dotenv.config();
 
-function prepareBackendUrl(url) {
+function prepareBackendUrl (url) {
   if (url.endsWith('/')) {
     return url.split('').slice(0, -1).join('');
   }
@@ -23,6 +23,8 @@ const envKeys = {
 };
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
+
+console.log("isDevelopment", isDevelopment);
 
 module.exports = {
   entry: path.join(__dirname, './src/index.js'),
