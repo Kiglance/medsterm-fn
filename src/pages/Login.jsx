@@ -31,10 +31,7 @@ const Login = () => {
 
   const nav = useNavigate();
   const [loading, setLoading] = React.useState(false);
-  const [loginForm, setLoginForm] = React.useState({
-    email: step === 1 ? 'admin_1@ms.com' : '',
-    password: step === 1 ? 'Admin1@ms' : ''
-  });
+
   const {
     handleSubmit,
     control,
@@ -42,7 +39,11 @@ const Login = () => {
     getValues,
     formState: { errors }
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: step === 1 ? 'admin_1@ms.com' : 'timhalland@med.com',
+      password: step === 1 ? 'Admin1@ms' : 'Admin2@ms'
+    }
   });
 
   const url = step === 0 ? `/users/client/login` : `/users/doctor/login`;
@@ -52,11 +53,6 @@ const Login = () => {
   if (userData?.token) {
     return <Navigate to="/dashboard" />;
   }
-
-  React.useEffect(() => {
-    setValue('email', 'admin_1@ms.com');
-    setValue('password', 'Admin1@ms');
-  }, [step]);
 
   const handleBack = () => {
     nav('/');
@@ -138,9 +134,8 @@ const Login = () => {
                   } cursor-pointer text-center w-1/2 font-semibold text-[#6A6F75]`}
                   onClick={() => {
                     dispatch(toPatientLogin());
-                    setLoginForm(() => {
-                      return { email: '', password: '' };
-                    });
+                    setValue('email', 'timhalland@med.com');
+                    setValue('password', 'Admin2@ms');
                   }}
                 >
                   Patient
@@ -151,9 +146,8 @@ const Login = () => {
                   } cursor-pointer text-center w-1/2 font-semibold text-[#6A6F75]`}
                   onClick={() => {
                     dispatch(toAdminLogin());
-                    setLoginForm(() => {
-                      return { email: 'admin_1@ms.com', password: 'Admin1@ms' };
-                    });
+                    setValue('email', 'admin_1@ms.com');
+                    setValue('password', 'Admin1@ms');
                   }}
                 >
                   Admin
@@ -180,13 +174,6 @@ const Login = () => {
                       label="Email"
                       name="email"
                       autoComplete="email"
-                      value={loginForm.email}
-                      onChange={(e) => {
-                        setLoginForm((value) => {
-                          return { ...value, email: e.target.value };
-                        });
-                        setValue('email', e.target.value);
-                      }}
                       autoFocus
                       error={!!errors.email}
                       helperText={errors.email?.message}
@@ -209,13 +196,6 @@ const Login = () => {
                       type="password"
                       id="password"
                       autoComplete="password"
-                      value={loginForm.password}
-                      onChange={(e) => {
-                        setLoginForm((value) => {
-                          return { ...value, password: e.target.value };
-                        });
-                        setValue('password', e.target.value);
-                      }}
                       error={!!errors.password}
                       helperText={errors.password?.message}
                     />
