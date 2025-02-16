@@ -83,7 +83,7 @@ function Analytics() {
   const [showCharts, setShowCharts] = useState(false);
   const selectedDoctorRef = useRef(null);
   const [step, setStep] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState('All Doctors');
   const [selectedPeriodValue, setSelectedPeriodValue] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState('This week');
   const [clickedDoctor, setClickedDoctor] = useState(null);
