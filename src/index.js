@@ -5,7 +5,7 @@ import './index.css';
 
 global.React = React;
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   global.console.log = () => {};
 }
 

@@ -79,8 +79,7 @@ const StyledSelect = styled((props) => (
 function Analytics() {
   const dispatch = useDispatch();
   const [selectedToggler, setSelectedToggler] = useState(false);
-  const [showDoctors, setShowDoctors] = useState(false);
-  const [showCharts, setShowCharts] = useState(false);
+  const [showDoctors, setShowDoctors] = useState(true);
   const selectedDoctorRef = useRef(null);
   const [step, setStep] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState('All Doctors');
@@ -100,9 +99,8 @@ function Analytics() {
 
   const toggleToggler = () => {
     setSelectedToggler((value) => !value);
-    setShowDoctors(false);
-    setShowCharts(true);
-    setSelectedDoctor(null);
+    setShowDoctors(!selectedToggler ? false : true);
+    setSelectedDoctor('All Doctors');
     setClickedDoctor(null);
     setStep(true);
   };
@@ -190,10 +188,6 @@ function Analytics() {
       }),
     [allDoctors, selectedToggler]
   );
-
-  console.log(patients, 'PATS');
-  console.log(clickedDoctor, 'clickedDoctor');
-  console.log(selectedPeriodValue, '+++');
 
   return (
     <>
@@ -289,7 +283,7 @@ function Analytics() {
                         onClick={() => {
                           setClickedDoctor(null);
                           setShowDoctors(true);
-                          setSelectedToggler((value) => !value);
+                          setSelectedToggler(false);
                         }}
                       >
                         All Doctors
@@ -342,7 +336,7 @@ function Analytics() {
         )}
 
         {/* Analytics sample data cards */}
-        {(!isAdmin || (showCharts && selectedToggler) || clickedDoctor) && (
+        {(!isAdmin || selectedToggler || selectedDoctor || clickedDoctor) && (
           <Stack direction="row" className="w-full gap-3 mt-3" flexWrap="wrap">
             <Stack
               direction="column"
@@ -399,7 +393,7 @@ function Analytics() {
         ) : (
           <>
             {/* Analytics Graphs */}
-            {((showCharts && selectedToggler) || clickedDoctor) && (
+            {(selectedToggler || clickedDoctor || selectedDoctor) && (
               <Box
                 sx={{
                   display: 'grid',
