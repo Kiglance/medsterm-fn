@@ -97,8 +97,8 @@
   },
   "browser": {
     "fs": false,
-    "path": false,
     "os": false,
+    "path": false,
     "v8-to-istanbul": "^9.0.0"
   }
 }
